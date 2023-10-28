@@ -4,6 +4,7 @@ import com.demo.entity.FileInfo;
 import com.demo.exceptions.FileExtensionException;
 import com.demo.exceptions.FileSizeException;
 import com.demo.service.FileInfoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@Tag(name = "FileInfo Controller", description = "CRUD Operations")
 @RestController
 @RequestMapping("/api/files")
 public class FileInfoController {
@@ -23,6 +25,7 @@ public class FileInfoController {
         this.fileInfoService = fileInfoService;
     }
 
+    @Tag(name = "Uploading a File")
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
@@ -37,16 +40,19 @@ public class FileInfoController {
         }
     }
 
+    @Tag(name = "Listing All Files")
     @GetMapping("/list")
     public ResponseEntity<List<FileInfo>> listFiles() {
         return ResponseEntity.ok(fileInfoService.listFiles());
     }
 
+    @Tag(name = "Get a Single File")
     @GetMapping("/list/{fileId}")
     public ResponseEntity<FileInfo> getSingleFile(@PathVariable("fileId") Long fileId) {
         return ResponseEntity.ok(fileInfoService.getSingleFile(fileId));
     }
 
+    @Tag(name = "Get a File Content")
     @GetMapping("/content/{fileId}")
     public ResponseEntity<byte[]> getFileContent(@PathVariable("fileId") Long fileId) {
         byte[] fileContent = fileInfoService.getFileContent(fileId);
@@ -54,6 +60,7 @@ public class FileInfoController {
         return ResponseEntity.ok(fileContent);
     }
 
+    @Tag(name = "Updating a File")
     @PutMapping("/update/{fileId}")
     public ResponseEntity<String> updateFile(
             @PathVariable("fileId") Long fileId,
@@ -73,6 +80,7 @@ public class FileInfoController {
         }
     }
 
+    @Tag(name = "Deleting a File")
     @DeleteMapping("/delete/{fileId}")
     public ResponseEntity<String> deleteFile(@PathVariable("fileId") Long fileId) {
         try {
